@@ -18,21 +18,21 @@ Aplicação foi construída seguindo a metodologia de Desenvolvimento Orientado 
 
  ```mermaid
 classDiagram
+  class Purchase {
+    price: BigDecimal
+    quantity: Integer
+    tickets: Ticket[]
+  }
+
   class Ticket {
     number: String
     day: Date
     session: Time
-    price: Bigdecimal
+    price: BigDecimal
     createAt: Date
     chair: Chair
     room: Room
     purchase: Purchase
-  }
-
-  class Purchase {
-    price: Bigdecimal
-    quantity: Interger
-    tickets: Ticket[]
   }
 
   class Room {
@@ -43,13 +43,14 @@ classDiagram
   }
 
   class Chair {
-    empty: Integer
+    empty: Boolean
     line: String
     number: Integer
     room: Room
   }
-  Ticket "1" *-- "1" Room
-  Ticket "1" *-- "1" Chair
-  Ticket "N" *-- "1" Purchase
-  Chair "N" --> "1" Room
+  Purchase "1" -- "N" Ticket
+  Ticket "1" -- "1" Room
+  Ticket "1" -- "1" Chair
+  Chair "N" -- "1" Room
+
 ```
