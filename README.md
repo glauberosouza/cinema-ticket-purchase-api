@@ -1,4 +1,4 @@
-﻿# Api para comprar de ingresso de cinema
+﻿# Api para compra de ingresso de cinema
 
 A API para compra de Ingressos de Cinema é um projeto de estudo onde está sendo criado um sistema para gerenciar a venda de ingressos de cinema. A aplicação permite aos usuários criar, comprar e gerenciar ingressos de cinema, oferecendo a opção de seleção de sala e cadeira. A entidade Ticket (Ingresso), contém informações sobre horários, preços e referências para compra, sala e cadeira. Foi utilizado o relacionamento @ManyToOne e @OneToMany entre as entidades.
 
