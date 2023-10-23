@@ -1,6 +1,5 @@
 package com.glauber.cinema.Ticket.controller.request;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,24 +11,23 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseRequest {
-    @Min(value = 1, message = "Número da sala inválido")
+    @Min(value = 1, message = "O número da sala deve ser no mínimo 1.")
     private Integer roomNumber;
-    @NotBlank(message = "Fileira inválida")
+    @NotBlank(message = "A fileira não pode estar em branco.")
     private String chairLine;
-    @Min(value = 1, message = "Número da poltrona inválido")
+    @Min(value = 1, message = "O número da poltrona deve ser no mínimo 1.")
     private Integer chairNumber;
-    @NotNull(message = "Dia inválido")
+    @NotNull(message = "A data não pode ser nula.")
     private LocalDate date;
-    @NotNull(message = "Sessão inválida")
+    @NotNull(message = "A hora da sessão não pode ser nula.")
     private LocalTime session;
-    @Min(value = 1, message = "Preço inválido")
+    @Min(value = 1, message = "O preço deve ser no mínimo 1.")
     private BigDecimal price;
-    @Min(value = 1, message = "Quantidade inválida")
+    @Min(value = 1, message = "A quantidade deve ser no mínimo 1.")
     private Integer quantity;
 }

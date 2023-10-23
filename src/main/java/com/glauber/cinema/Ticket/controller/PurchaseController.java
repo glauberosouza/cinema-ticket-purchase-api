@@ -7,6 +7,7 @@ import com.glauber.cinema.Ticket.controller.response.PurchaseResponse;
 import com.glauber.cinema.Ticket.controller.response.PurchaseUpdatedResponse;
 import com.glauber.cinema.Ticket.domain.model.Purchase;
 import com.glauber.cinema.Ticket.service.PurchaseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class PurchaseController {
     }
 
     @PostMapping
-    public ResponseEntity<PurchaseResponse> savePurchase(@RequestBody PurchaseRequest purchaseRequest) {
+    public ResponseEntity<PurchaseResponse> savePurchase(@RequestBody @Valid PurchaseRequest purchaseRequest) {
         var purchaseEntity = purchaseConverter.toPurchaseEntity(purchaseRequest);
         purchaseService.save(purchaseEntity);
         var purchaseResponse = purchaseConverter.toPurchaseResponse(purchaseEntity);

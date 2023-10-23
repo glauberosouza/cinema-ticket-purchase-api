@@ -8,7 +8,7 @@ import com.glauber.cinema.Ticket.domain.repository.PurchaseRepository;
 import com.glauber.cinema.Ticket.domain.repository.RoomRepository;
 import com.glauber.cinema.Ticket.domain.repository.TicketRepository;
 import com.glauber.cinema.Ticket.exception.OccupiedChairException;
-import com.glauber.cinema.Ticket.exception.PurchaseNotFound;
+import com.glauber.cinema.Ticket.exception.PurchaseNotFoundException;
 import com.glauber.cinema.Ticket.service.PurchaseService;
 import com.glauber.cinema.Ticket.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     public Purchase update(Long id, PurchaseUpdateRequest purchaseUpdateRequest) {
         Optional<Purchase> purchaseToUpdate = purchaseRepository.findById(id);
         if (purchaseToUpdate.isEmpty()) {
-            throw new PurchaseNotFound("A compra com o id: " + id + " informado não foi localizado");
+            throw new PurchaseNotFoundException("A compra com o id: " + id + " informado não foi localizado");
 
         }
         Purchase purchase = Purchase.updateValues(purchaseUpdateRequest, purchaseToUpdate.get());

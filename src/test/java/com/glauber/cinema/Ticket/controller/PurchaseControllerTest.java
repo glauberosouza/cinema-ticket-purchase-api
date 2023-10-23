@@ -184,6 +184,7 @@ class PurchaseControllerTest {
         assertEquals(0, new BigDecimal("60.00").compareTo(purchase.getPrice()));
 
     }
+
     @Test
     @DisplayName("Deve deletar uma compra e seus dependentes")
     public void shouldDeletePurchase() throws Exception {
@@ -218,5 +219,156 @@ class PurchaseControllerTest {
         assertTrue(purchases.isEmpty());
         assertTrue(tickets.isEmpty());
 
+    }
+
+    @Test
+    @DisplayName("Deve falhar caso numero da sala menor que 1")
+    public void shouldFailIfTheRoomNumberIsLowerThanOne() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                0,
+                "A",
+                1,
+                LocalDate.now(),
+                LocalTime.now(),
+                BigDecimal.valueOf(20.0),
+                1);
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("Deve falhar caso numero da sala null")
+    public void shouldFailIfTheNumberOfTheRoomIsNull() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                null,
+                "A",
+                1,
+                LocalDate.now(),
+                LocalTime.now(),
+                BigDecimal.valueOf(20.0),
+                1);
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    @DisplayName("Deve falhar caso fileira seja em branco")
+    public void shouldFailIfTheLineIsBlank() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                1,
+                "",
+                1,
+                LocalDate.now(),
+                LocalTime.now(),
+                BigDecimal.valueOf(20.0),
+                1);
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("Deve falhar caso numero da poltrona seja menor que 1")
+    public void shouldFailIfTheNumberOfChairIsLessThanOne() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                1,
+                "A",
+                0,
+                LocalDate.now(),
+                LocalTime.now(),
+                BigDecimal.valueOf(20.0),
+                1);
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("Deve falhar caso data seja em branco")
+    public void shouldFailIfTheDataAreBlank() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                1,
+                "A",
+                1,
+                null,
+                LocalTime.now(),
+                BigDecimal.valueOf(20.0),
+                1);
+
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    @DisplayName("Deve falhar caso sessão seja em branco")
+    public void shouldFailIfTheSessionIsBlank() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                1,
+                "A",
+                1,
+                LocalDate.now(),
+                null,
+                BigDecimal.valueOf(20.0),
+                1);
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is4xxClientError());
+    }
+    @Test
+    @DisplayName("Deve falhar caso preço seja menor que 1")
+    public void souldFailIfThePriceIsLessThanOne() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                1,
+                "A",
+                1,
+                LocalDate.now(),
+                LocalTime.now(),
+                BigDecimal.valueOf(0),
+                1);
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is4xxClientError());
+    }
+    @Test
+    @DisplayName("Deve falhar caso quantidade seja menor que 1")
+    public void shouldFailIfTheQuantityIsLessThanOne() throws Exception {
+        PurchaseRequest purchaseRequest = new PurchaseRequest(
+                1,
+                "A",
+                1,
+                LocalDate.now(),
+                LocalTime.now(),
+                BigDecimal.valueOf(0),
+                0);
+
+        String body = config.objectMapper().writeValueAsString(purchaseRequest);
+        mockMvc.perform(post("/purchases")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body)
+        ).andExpect(status().is4xxClientError());
     }
 }
