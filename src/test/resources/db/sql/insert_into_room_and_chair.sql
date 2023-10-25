@@ -14,7 +14,7 @@ INSERT INTO
         EMPTY,
         LINE,
         NUMBER,
-        IDT_ROOM
+        ID_ROOM
     )
 VALUES
     (1, 'A', '1', 1),

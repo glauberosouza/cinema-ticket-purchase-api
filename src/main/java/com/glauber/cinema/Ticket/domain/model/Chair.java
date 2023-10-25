@@ -24,7 +24,7 @@ public class Chair {
     private Integer number;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idt_room")
+    @JoinColumn(name = "id_room")
     private Room room;
 
     public boolean isEmpty() {
