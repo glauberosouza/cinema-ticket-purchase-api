@@ -52,21 +52,17 @@ public class Ticket {
         this.price = price;
         this.purchase = purchase;
     }
-    //TODO: ERRO ESTÁ NO NUMBER QUE ESTÁ VINDO DUPLICADO TENTAR RESOLVER ISSO
-    //TODO: PARA TENTAR RESOLVER CRIEI 2 MÉTODOS PARA TENTAR FAZER NÃO SE REPETIR PORÉM SEM SUCESSO.
     public static Ticket of(Purchase purchase, Room room) {
         var ticket = new Ticket(room, purchase.getDate(), purchase.getSession(), purchase.getPrice(), purchase);
 
         var chair = room.getChairAt(purchase.getChairLine(), purchase.getChairNumber());
         ticket.setChair(chair);
-        //ticket.setNumber(ticket.getTicketDay().getYear() + "" + ticket.getSession() + "" + room.getNumber());
         String body = generateDescriptionToNumber(ticket, purchase);
         ticket.setNumber(body);
         return ticket;
     }
     private static String generateDescriptionToNumber(Ticket ticket, Purchase purchase) {
-        // TODO: O id da compra junto com a descrição (data, sessão e numero da sala)
-        String tickerDescription = purchase.getId() + "-" + ticket.getTicketDay().getYear() + "-" + purchase.getSession() + "-" + ticket.getRoom().getNumber();
+        String tickerDescription = ticket.getTicketDay().getYear() + "-" + purchase.getSession() + "-" + ticket.getRoom().getNumber();
 
         // TODO: Gerando um UUId individual para cada ticket
         tickerDescription += "-" + generateUniqueIdentifier();
