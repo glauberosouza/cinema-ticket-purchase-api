@@ -3,10 +3,12 @@ package com.glauber.cinema.Ticket.service.impl;
 import com.glauber.cinema.Ticket.controller.request.PurchaseUpdateRequest;
 import com.glauber.cinema.Ticket.domain.model.Chair;
 import com.glauber.cinema.Ticket.domain.model.Purchase;
+import com.glauber.cinema.Ticket.domain.model.Room;
 import com.glauber.cinema.Ticket.domain.model.Ticket;
 import com.glauber.cinema.Ticket.domain.repository.PurchaseRepository;
 import com.glauber.cinema.Ticket.domain.repository.RoomRepository;
 import com.glauber.cinema.Ticket.domain.repository.TicketRepository;
+import com.glauber.cinema.Ticket.exception.ChairNotFoundException;
 import com.glauber.cinema.Ticket.exception.OccupiedChairException;
 import com.glauber.cinema.Ticket.exception.PurchaseNotFoundException;
 import com.glauber.cinema.Ticket.service.PurchaseService;
@@ -37,9 +39,10 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public void save(Purchase purchase) {
         Chair chair = roomService.getChair(purchase);
-        if (!chair.isEmpty()) {
+        if (!chair.getEmpty()) {
             throw new OccupiedChairException("Poltrona já ocupada");
         }
+        chair.setEmpty(false);
         var ticket = Ticket.of(purchase, chair.getRoom());
         ticket.setCreateAt(LocalDate.now());
         purchase.setTickets(List.of(ticket));
@@ -48,8 +51,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     @Override
     public List<Purchase> findAllPurchases() {
-        List<Purchase> purchaseList = purchaseRepository.findAll();
-        return purchaseList;
+        return purchaseRepository.findAll();
     }
 
     @Override
@@ -66,9 +68,12 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public void deleteById(Long id) {
         Optional<Purchase> purchaseById = purchaseRepository.findById(id);
-        if (purchaseById.isPresent()) {
-            Purchase purchase = purchaseById.get();
-            purchaseRepository.delete(purchase);
+        if (purchaseById.isEmpty()) {
+            throw new PurchaseNotFoundException("A compra com o id: " + id + " informado não foi localizado");
         }
+        Purchase purchase = purchaseById.get();
+        purchase.getChair().setEmpty(true);
+
+        purchaseRepository.delete(purchase);
     }
 }

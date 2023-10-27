@@ -55,4 +55,8 @@ public class Purchase {
         purchaseToUpdate.setQuantity(request.getQuantity());
         return purchaseToUpdate;
     }
+
+    public Chair getChair() {
+        return tickets.isEmpty() ? null : tickets.get(0).getChair();
+    }
 }

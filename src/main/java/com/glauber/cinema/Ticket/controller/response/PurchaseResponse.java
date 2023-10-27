@@ -24,5 +24,4 @@ public class PurchaseResponse {
     private LocalTime session;
     private BigDecimal price;
     private Integer quantity;
-    //private List<Ticket> tickets;
 }

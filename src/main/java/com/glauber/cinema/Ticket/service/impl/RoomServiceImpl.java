@@ -15,6 +15,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     public RoomServiceImpl(RoomRepository roomRepository) {
+
         this.roomRepository = roomRepository;
     }
     @Override

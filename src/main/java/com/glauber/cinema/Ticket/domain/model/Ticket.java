@@ -57,6 +57,7 @@ public class Ticket {
 
         var chair = room.getChairAt(purchase.getChairLine(), purchase.getChairNumber());
         ticket.setChair(chair);
+        ticket.setPrice(purchase.getPrice());
         String body = generateDescriptionToNumber(ticket, purchase);
         ticket.setNumber(body);
         return ticket;

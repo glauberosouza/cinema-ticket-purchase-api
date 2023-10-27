@@ -13,7 +13,6 @@ import java.util.List;
 @Component
 public class PurchaseConverter {
     public Purchase toPurchaseEntity(PurchaseRequest request) {
-
         var purchase = new Purchase();
         purchase.setRoomNumber(request.getRoomNumber());
         purchase.setChairLine(request.getChairLine());

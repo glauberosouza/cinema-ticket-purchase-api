@@ -27,7 +27,5 @@ public class Chair {
     @JoinColumn(name = "id_room")
     private Room room;
 
-    public boolean isEmpty() {
-        return empty;
-    }
+
 }

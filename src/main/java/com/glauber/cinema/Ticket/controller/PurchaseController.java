@@ -38,8 +38,8 @@ public class PurchaseController {
 
     @GetMapping
     public ResponseEntity<List<PurchaseResponse>> findAll() {
-        var allPurchases = purchaseService.findAllPurchases();
-        var listOfPurchaseResponse = purchaseConverter.toListOfPurchaseResponse(allPurchases);
+        List<Purchase> allPurchases = purchaseService.findAllPurchases();
+        List<PurchaseResponse> listOfPurchaseResponse = purchaseConverter.toListOfPurchaseResponse(allPurchases);
         return ResponseEntity.status(HttpStatus.OK).body(listOfPurchaseResponse);
     }
 
