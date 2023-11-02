@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -24,7 +23,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room findRoom(Long id) {
-        Optional<Room> roomById = roomRepository.findById(id);
+        var roomById = roomRepository.findById(id);
         if (roomById.isEmpty()){
             throw new NoSuchElementException("A sala com o id:" + id + " Não foi encontrada!");
         }

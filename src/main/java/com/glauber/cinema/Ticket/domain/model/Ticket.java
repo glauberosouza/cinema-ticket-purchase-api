@@ -1,6 +1,5 @@
 package com.glauber.cinema.Ticket.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 
@@ -34,13 +32,13 @@ public class Ticket {
     private BigDecimal price;
     @Column
     private LocalTime session;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_chair")
     private Chair chair;
     @ManyToOne
     @JoinColumn(name = "id_purchase")
     private Purchase purchase;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_room")
     private Room room;
 

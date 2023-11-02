@@ -5,7 +5,6 @@ import com.glauber.cinema.Ticket.controller.request.PurchaseRequest;
 import com.glauber.cinema.Ticket.controller.request.PurchaseUpdateRequest;
 import com.glauber.cinema.Ticket.controller.response.PurchaseResponse;
 import com.glauber.cinema.Ticket.controller.response.PurchaseUpdatedResponse;
-import com.glauber.cinema.Ticket.domain.model.Purchase;
 import com.glauber.cinema.Ticket.service.PurchaseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +37,15 @@ public class PurchaseController {
 
     @GetMapping
     public ResponseEntity<List<PurchaseResponse>> findAll() {
-        List<Purchase> allPurchases = purchaseService.findAllPurchases();
-        List<PurchaseResponse> listOfPurchaseResponse = purchaseConverter.toListOfPurchaseResponse(allPurchases);
+        var allPurchases = purchaseService.findAllPurchases();
+        var listOfPurchaseResponse = purchaseConverter.toListOfPurchaseResponse(allPurchases);
         return ResponseEntity.status(HttpStatus.OK).body(listOfPurchaseResponse);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PurchaseUpdatedResponse> update(@PathVariable Long id, @RequestBody PurchaseUpdateRequest purchaseUpdateRequest) {
-        Purchase purchaseUpdated = purchaseService.update(id, purchaseUpdateRequest);
-        PurchaseUpdatedResponse purchaseResponseUpdated = purchaseConverter.toPurchaseResponseUpdated(purchaseUpdated);
+        var purchaseUpdated = purchaseService.update(id, purchaseUpdateRequest);
+        var purchaseResponseUpdated = purchaseConverter.toPurchaseResponseUpdated(purchaseUpdated);
         return ResponseEntity.status(HttpStatus.OK).body(purchaseResponseUpdated);
     }
 

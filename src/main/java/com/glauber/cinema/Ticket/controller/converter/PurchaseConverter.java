@@ -34,11 +34,6 @@ public class PurchaseConverter {
     public PurchaseResponse toPurchaseResponse(Purchase purchase) {
         var purchaseResponse = new PurchaseResponse();
         purchaseResponse.setId(purchase.getId());
-        purchaseResponse.setRoomNumber(purchase.getRoomNumber());
-        purchaseResponse.setChairLine(purchase.getChairLine());
-        purchaseResponse.setChairNumber(purchase.getChairNumber());
-        purchaseResponse.setDate(purchase.getDate());
-        purchaseResponse.setSession(purchase.getSession());
         purchaseResponse.setPrice(purchase.getPrice());
         purchaseResponse.setQuantity(purchase.getQuantity());
         return purchaseResponse;
@@ -49,6 +44,12 @@ public class PurchaseConverter {
         purchaseUpdatedResponse.setPrice(purchase.getPrice());
         purchaseUpdatedResponse.setQuantity(purchase.getQuantity());
         return purchaseUpdatedResponse;
+    }
+    public Purchase purchaseUpdateEntityToPurchaseEntity(PurchaseUpdateRequest purchaseUpdateRequest){
+        Purchase purchaseUpdated = new Purchase();
+        purchaseUpdated.setPrice(purchaseUpdateRequest.getPrice());
+        purchaseUpdated.setQuantity(purchaseUpdateRequest.getQuantity());
+        return purchaseUpdated;
     }
 
     public List<PurchaseResponse> toListOfPurchaseResponse(List<Purchase> purchases) {

@@ -5,10 +5,6 @@ import com.glauber.cinema.Ticket.configuration.JacksonConfig;
 import com.glauber.cinema.Ticket.controller.converter.PurchaseConverter;
 import com.glauber.cinema.Ticket.controller.request.PurchaseRequest;
 import com.glauber.cinema.Ticket.controller.request.PurchaseUpdateRequest;
-import com.glauber.cinema.Ticket.domain.model.Chair;
-import com.glauber.cinema.Ticket.domain.model.Purchase;
-import com.glauber.cinema.Ticket.domain.model.Room;
-import com.glauber.cinema.Ticket.domain.model.Ticket;
 import com.glauber.cinema.Ticket.domain.repository.PurchaseRepository;
 import com.glauber.cinema.Ticket.domain.repository.TicketRepository;
 import com.glauber.cinema.Ticket.exception.OccupiedChairException;
@@ -140,28 +136,18 @@ class PurchaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is2xxSuccessful());
 
-        //purchaseService.save(purchaseEntity);
         var purchases = purchaseService.findAllPurchases();
         //ASSETS
-        assertEquals(1, purchases.size());
+        assertEquals(2, purchases.size());
     }
 
     @Test
     @DisplayName("Deve atualizar o preço e quantidade de uma compra")
-    @Sql({TRUNCATE, Chair_To_Empty})
+    @Sql({TRUNCATE, Insert_Into_Purchases})
     public void shouldUpdatePriceAndQuantityFromPurchase() throws Exception {
         //ARRANGE
-        PurchaseUpdateRequest purchaseUpdateRequest = new PurchaseUpdateRequest(BigDecimal.valueOf(60.0), 3);
-        PurchaseRequest purchaseRequest = new PurchaseRequest(
-                1,
-                "A",
-                1,
-                LocalDate.now(),
-                LocalTime.now(),
-                BigDecimal.valueOf(20.0), 1);
-        Purchase purchaseEntity = converter.toPurchaseEntity(purchaseRequest);
-        purchaseEntity.setId(1L);
-        purchaseService.save(purchaseEntity);
+        PurchaseUpdateRequest purchaseUpdateRequest = new PurchaseUpdateRequest(BigDecimal.valueOf(30.00), 3);
+
 
         var body = config.objectMapper().writeValueAsString(purchaseUpdateRequest);
 
@@ -173,7 +159,7 @@ class PurchaseControllerTest {
         //ASSETS
         var purchase = purchaseRepository.findById(1L).get();
         assertEquals(3, purchase.getQuantity());
-        assertEquals(0, new BigDecimal("60.00").compareTo(purchase.getPrice()));
+        assertEquals(0, new BigDecimal("30.00").compareTo(purchase.getPrice()));
 
     }
 

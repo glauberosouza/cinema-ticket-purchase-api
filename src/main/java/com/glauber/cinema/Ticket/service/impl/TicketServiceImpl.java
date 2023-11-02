@@ -10,10 +10,7 @@ import com.glauber.cinema.Ticket.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -40,11 +37,11 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket update(Long id, TicketUpdateRequest ticket) {
-        Optional<Ticket> ticketById = ticketRepository.findById(id);
+        var ticketById = ticketRepository.findById(id);
         if (!ticketById.isPresent()) {
             throw new TicketNotFoundException("Não foi localizado um ticket com o id: " + id + " inserido");
         }
-        Ticket ticketFounded = ticketById.get();
+        var ticketFounded = ticketById.get();
         ticketFounded.setPrice(ticket.getPrice());
         ticketRepository.save(ticketFounded);
         return ticketFounded;
@@ -52,11 +49,11 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Ticket> ticketById = ticketRepository.findById(id);
+        var ticketById = ticketRepository.findById(id);
         if (!ticketById.isPresent()) {
             throw new TicketNotFoundException("Não foi localizado um ticket com o id: " + id + " inserido");
         }
-        Ticket ticket = ticketById.get();
+        var ticket = ticketById.get();
         ticketRepository.delete(ticket);
     }
 }

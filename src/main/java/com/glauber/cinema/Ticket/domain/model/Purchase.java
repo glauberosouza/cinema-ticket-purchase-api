@@ -1,6 +1,5 @@
 package com.glauber.cinema.Ticket.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.glauber.cinema.Ticket.controller.request.PurchaseUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
