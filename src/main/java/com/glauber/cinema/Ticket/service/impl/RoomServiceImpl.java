@@ -28,15 +28,14 @@ public class RoomServiceImpl implements RoomService {
         if (roomById.isEmpty()){
             throw new NoSuchElementException("A sala com o id:" + id + " Não foi encontrada!");
         }
-        Room room = roomById.get();
-        return room;
+        return roomById.get();
     }
 
     @Override
     public Chair getChair(Purchase purchase) {
         var chairLine = purchase.getChairLine();
         var chairNumber = purchase.getChairNumber();
-        var room = roomRepository.findByNumber(purchase.getRoomNumber());
+        var room = findRoom(purchase.getRoomNumber().longValue());
 
         return room.getChairs()
                 .stream()

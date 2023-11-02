@@ -10,10 +10,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
-//@JsonManagedReference is the forward part of reference, the one that gets serialized normally.
-//@JsonBackReference is the back part of reference; it’ll be omitted from serialization.
 
 @Entity
 @Table(name = "ticket")
@@ -38,8 +37,7 @@ public class Ticket {
     @OneToOne
     @JoinColumn(name = "id_chair")
     private Chair chair;
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "id_purchase")
     private Purchase purchase;
     @OneToOne
@@ -53,6 +51,7 @@ public class Ticket {
         this.price = price;
         this.purchase = purchase;
     }
+
     public static Ticket of(Purchase purchase, Room room) {
         var ticket = new Ticket(room, purchase.getDate(), purchase.getSession(), purchase.getPrice(), purchase);
 
@@ -63,12 +62,10 @@ public class Ticket {
         ticket.setNumber(body);
         return ticket;
     }
+
     private static String generateDescriptionToNumber(Ticket ticket, Purchase purchase) {
         String tickerDescription = ticket.getTicketDay().getYear() + "-" + purchase.getSession() + "-" + ticket.getRoom().getNumber();
-
-        // TODO: Gerando um UUId individual para cada ticket
         tickerDescription += "-" + generateUniqueIdentifier();
-
         return tickerDescription;
     }
 

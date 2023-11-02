@@ -32,7 +32,7 @@ public class Room {
 
     public Chair getChairAt(String chairLine, int chairNumber) {
         return this.chairs.stream()
-                .filter(it -> it.getLine().equals(chairLine) && it.getNumber() == chairNumber)
+                .filter(chair -> chair.getLine().equals(chairLine) && chair.getNumber() == chairNumber)
                 .findFirst().orElseThrow(ChairNotFoundException::new);
     }
 }

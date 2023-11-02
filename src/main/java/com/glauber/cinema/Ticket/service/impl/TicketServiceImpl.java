@@ -10,6 +10,7 @@ import com.glauber.cinema.Ticket.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +25,11 @@ public class TicketServiceImpl implements TicketService {
     public TicketServiceImpl(TicketRepository ticketRepository, TicketConverter ticketConverter) {
         this.ticketRepository = ticketRepository;
         this.converter = ticketConverter;
+    }
+
+    @Override
+    public Ticket save(Ticket ticket) {
+       return ticketRepository.save(ticket);
     }
 
     @Override

@@ -36,8 +36,7 @@ public class Purchase {
     private BigDecimal price;
     @Column
     private Integer quantity;
-    @OneToMany(mappedBy = "purchase", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonManagedReference
+    @OneToMany(mappedBy = "purchase", cascade = CascadeType.REMOVE)
     private List<Ticket> tickets;
 
     public Purchase(Long id, Integer roomNumber, String chairLine, Integer chairNumber, LocalDate date, LocalTime session, BigDecimal price, Integer quantity) {

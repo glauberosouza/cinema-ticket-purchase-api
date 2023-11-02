@@ -7,6 +7,7 @@ import com.glauber.cinema.Ticket.domain.model.Ticket;
 import java.util.List;
 
 public interface TicketService {
+    Ticket save(Ticket ticket);
     List<TicketResponse> findAll();
     Ticket update(Long id, TicketUpdateRequest ticket);
 

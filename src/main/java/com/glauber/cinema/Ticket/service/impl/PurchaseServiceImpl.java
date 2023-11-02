@@ -13,9 +13,11 @@ import com.glauber.cinema.Ticket.exception.OccupiedChairException;
 import com.glauber.cinema.Ticket.exception.PurchaseNotFoundException;
 import com.glauber.cinema.Ticket.service.PurchaseService;
 import com.glauber.cinema.Ticket.service.RoomService;
+import com.glauber.cinema.Ticket.service.TicketService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,13 +30,15 @@ public class PurchaseServiceImpl implements PurchaseService {
     private final RoomRepository roomRepository;
     private final TicketRepository ticketRepository;
     private final PurchaseRepository purchaseRepository;
+    private final TicketService ticketService;
 
     @Autowired
-    public PurchaseServiceImpl(RoomService roomService, RoomRepository roomRepository, TicketRepository ticketRepository, PurchaseRepository purchaseRepository) {
+    public PurchaseServiceImpl(RoomService roomService, RoomRepository roomRepository, TicketRepository ticketRepository, PurchaseRepository purchaseRepository, TicketService ticketService) {
         this.roomService = roomService;
         this.roomRepository = roomRepository;
         this.ticketRepository = ticketRepository;
         this.purchaseRepository = purchaseRepository;
+        this.ticketService = ticketService;
     }
 
     @Transactional
@@ -48,6 +52,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         var room = roomService.findRoom(purchase.getRoomNumber().longValue());
         var ticket = Ticket.of(purchase, room);
         ticket.setCreateAt(LocalDate.now());
+        ticketService.save(ticket);
         purchase.setTickets(List.of(ticket));
         purchaseRepository.save(purchase);
     }
