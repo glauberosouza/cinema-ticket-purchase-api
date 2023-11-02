@@ -12,10 +12,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-// @JsonManagedReference is the forward part of reference, the one that gets serialized normally.
+//@JsonManagedReference is the forward part of reference, the one that gets serialized normally.
 //@JsonBackReference is the back part of reference; it’ll be omitted from serialization.
 
-@Entity(name = "ticket")
+@Entity
+@Table(name = "ticket")
 @Getter
 @Setter
 @NoArgsConstructor

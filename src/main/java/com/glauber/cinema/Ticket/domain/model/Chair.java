@@ -26,6 +26,4 @@ public class Chair {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_room")
     private Room room;
-
-
 }

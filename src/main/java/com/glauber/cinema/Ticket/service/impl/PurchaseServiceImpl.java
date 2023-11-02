@@ -13,6 +13,7 @@ import com.glauber.cinema.Ticket.exception.OccupiedChairException;
 import com.glauber.cinema.Ticket.exception.PurchaseNotFoundException;
 import com.glauber.cinema.Ticket.service.PurchaseService;
 import com.glauber.cinema.Ticket.service.RoomService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         this.purchaseRepository = purchaseRepository;
     }
 
+    @Transactional
     @Override
     public void save(Purchase purchase) {
         Chair chair = roomService.getChair(purchase);
@@ -43,7 +45,8 @@ public class PurchaseServiceImpl implements PurchaseService {
             throw new OccupiedChairException("Poltrona já ocupada");
         }
         chair.setEmpty(false);
-        var ticket = Ticket.of(purchase, chair.getRoom());
+        var room = roomService.findRoom(purchase.getRoomNumber().longValue());
+        var ticket = Ticket.of(purchase, room);
         ticket.setCreateAt(LocalDate.now());
         purchase.setTickets(List.of(ticket));
         purchaseRepository.save(purchase);

@@ -9,6 +9,9 @@ import com.glauber.cinema.Ticket.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @Service
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
@@ -18,6 +21,17 @@ public class RoomServiceImpl implements RoomService {
 
         this.roomRepository = roomRepository;
     }
+
+    @Override
+    public Room findRoom(Long id) {
+        Optional<Room> roomById = roomRepository.findById(id);
+        if (roomById.isEmpty()){
+            throw new NoSuchElementException("A sala com o id:" + id + " Não foi encontrada!");
+        }
+        Room room = roomById.get();
+        return room;
+    }
+
     @Override
     public Chair getChair(Purchase purchase) {
         var chairLine = purchase.getChairLine();

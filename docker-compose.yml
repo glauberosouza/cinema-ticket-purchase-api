@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  mysqlsrv:
+    image: mysql:5.7
+    container_name: o8k_academy_my_sql_5_7
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "o8k_academy_db"
+    ports:
+      - "3307:3306"
+    volumes:
+      - ~/localstack/o8kacademy/data/mysql:/var/lib/mysql
+    networks:
+      - sgbd-compose-network
+
+  adminer:
+    image: adminer
+    container_name: o8k_academy_adminer
+    ports:
+      - 8080:8080
+    networks:
+      - sgbd-compose-network
+
+  postgres:
+    image: postgres:10.5
+    container_name: o8k_academy_postgres_10_5
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=o8k_academy_db
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5432:5432'
+    volumes:
+      - ~/localstack/o8kacademy/data/postgres:/var/lib/postgresql/data
+      # Copy the sql script, if there is any, to ~/localstack/o8kacademy/data/sql
+      # - ~/localstack/o8kacademy/data/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - sgbd-compose-network
+
+networks:
+  sgbd-compose-network:
+    driver: bridge

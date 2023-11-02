@@ -43,6 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PurchaseControllerTest {
     private static final String TRUNCATE = "classpath:/db/sql/reset.sql";
     private static final String INSERT_INTO_ROOM_AND_CHAIR = "classpath:/db/sql/insert_into_room_and_chair.sql";
+    private static final String Purchase_With_Children = "classpath:/db/sql/purchase_with_childrens.sql";
+    private static final String Insert_Into_Purchases = "classpath:/db/sql/insert_into_purchase.sql";
     private static final String Chair_To_Empty = "classpath:db/sql/reset_chair_empty.sql";
     private static final String Update_Chair_To_Occupied = "classpath:db/sql/update_chair_to_occupied.sql";
     @Autowired
@@ -130,25 +132,15 @@ class PurchaseControllerTest {
 
     @Test
     @DisplayName("Deve listar todas as compras")
+    @Sql(Insert_Into_Purchases)
     public void ShouldListAllPurchases() throws Exception {
         //ARRANGE
-        PurchaseRequest purchaseRequest = new PurchaseRequest(
-                1,
-                "A",
-                1,
-                LocalDate.now(),
-                LocalTime.now(),
-                BigDecimal.valueOf(20.0), 1);
-        Purchase purchaseEntity = converter.toPurchaseEntity(purchaseRequest);
 
-
-        //ACT
-        String body = config.objectMapper().writeValueAsString(purchaseRequest);
         mockMvc.perform(get("/purchases")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is2xxSuccessful());
 
-        purchaseService.save(purchaseEntity);
+        //purchaseService.save(purchaseEntity);
         var purchases = purchaseService.findAllPurchases();
         //ASSETS
         assertEquals(1, purchases.size());
@@ -187,35 +179,17 @@ class PurchaseControllerTest {
 
     @Test
     @DisplayName("Deve deletar uma compra e seus dependentes")
+    @Sql(Purchase_With_Children)
     public void shouldDeletePurchase() throws Exception {
         //ARRANGE
-        Purchase purchase = new Purchase(
-                1L,
-                1,
-                "A",
-                1,
-                LocalDate.now(),
-                LocalTime.now(),
-                BigDecimal.valueOf(20.0),
-                1);
-        Room room = new Room();
-        Chair chair = new Chair();
-        Ticket ticket = new Ticket(
-                room,
-                LocalDate.now(),
-                LocalTime.now(),
-                BigDecimal.valueOf(20.0),
-                purchase
-        );
 
-        ////ACT
-        mockMvc.perform(delete("/purchases" + "/1")
+        mockMvc.perform(delete("/purchases/1")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is2xxSuccessful());
 
+        //ASSETS
         var purchases = purchaseRepository.findAll();
         var tickets = ticketRepository.findAll();
-        //ASSETS
         assertTrue(purchases.isEmpty());
         assertTrue(tickets.isEmpty());
 
