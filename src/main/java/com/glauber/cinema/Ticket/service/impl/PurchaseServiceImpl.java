@@ -1,7 +1,6 @@
 package com.glauber.cinema.Ticket.service.impl;
 
 import com.glauber.cinema.Ticket.controller.request.PurchaseUpdateRequest;
-import com.glauber.cinema.Ticket.domain.model.Chair;
 import com.glauber.cinema.Ticket.domain.model.Purchase;
 import com.glauber.cinema.Ticket.domain.model.Ticket;
 import com.glauber.cinema.Ticket.domain.repository.PurchaseRepository;
@@ -18,8 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
+//TODO: Quando for alterado o preço no ticket deve ser replicado no purchase
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
 

@@ -35,7 +35,7 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "id_chair")
     private Chair chair;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_purchase")
     private Purchase purchase;
     @ManyToOne

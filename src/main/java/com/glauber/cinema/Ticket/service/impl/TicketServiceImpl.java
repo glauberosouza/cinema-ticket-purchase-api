@@ -26,7 +26,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket save(Ticket ticket) {
-       return ticketRepository.save(ticket);
+        return ticketRepository.save(ticket);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class TicketServiceImpl implements TicketService {
         }
         var ticketFounded = ticketById.get();
         ticketFounded.setPrice(ticket.getPrice());
+        ticketFounded.getPurchase().setPrice(ticket.getPrice());
         ticketRepository.save(ticketFounded);
         return ticketFounded;
     }

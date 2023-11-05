@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
@@ -17,7 +16,28 @@ public class RestExceptionHandler {
         ExceptionResponseBuilder exceptionResponseBuilder = new ExceptionResponseBuilder(
                 "Bad request",
                 HttpStatus.BAD_REQUEST.value(),
-                " Eita! Algum campo foi preenchido incorretamente!"
+                e.getMessage()
+        );
+        return exceptionResponseBuilder.build();
+    }
+
+    @ExceptionHandler(ChairNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse chairNotFoundException(ChairNotFoundException e){
+        ExceptionResponseBuilder exceptionResponseBuilder = new ExceptionResponseBuilder(
+                "Bad request",
+                HttpStatus.BAD_REQUEST.value(),
+                e.getMessage()
+        );
+        return exceptionResponseBuilder.build();
+    }
+    @ExceptionHandler(OccupiedChairException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse occupiedChairException(OccupiedChairException e){
+        ExceptionResponseBuilder exceptionResponseBuilder = new ExceptionResponseBuilder(
+                "Bad request",
+                HttpStatus.BAD_REQUEST.value(),
+                e.getMessage()
         );
         return exceptionResponseBuilder.build();
     }
